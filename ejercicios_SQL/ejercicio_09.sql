@@ -19,3 +19,21 @@ select J.empl_codigo as codigo_jefe,
 	   E.empl_codigo ,
 	   E.empl_nombre ,
        E.empl_apellido 
+
+
+
+/*aparte para pensarlo
+
+ /*encuentro un empleado y le encuentro cuantos depositos tiene a cargo
+ select J.empl_codigo as codigo_jefe,
+	   J.empl_nombre as nombre_jefe,
+       J.empl_apellido as apellido_jefe,
+	   count(D.depo_encargado)as depositos_a_cargo
+ From Empleado J
+ Join DEPOSITO D ON D.depo_encargado = J.empl_codigo 
+
+group by J.empl_codigo,
+	   J.empl_nombre ,
+       J.empl_apellido 
+
+*/ 
