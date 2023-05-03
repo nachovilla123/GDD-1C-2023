@@ -22,6 +22,30 @@ select J.empl_codigo as codigo_jefe,
 
 
 
+
+------------------------- VERSION BORDA ABAJO FORMA DISTINTA: muestra los campos x separado -------------
+
+SELECT 
+E.empl_jefe as Jefe,
+E.empl_codigo as Codigo_Empleado,
+E.empl_nombre as Nombre_Empleado,
+ ISNULL((SELECT 
+        COUNT(D1.depo_encargado)
+        FROM DEPOSITO D1
+        where D1.depo_encargado = e.empl_codigo
+        group by D1.depo_encargado 
+),0) AS Deposito_Empleado,
+Deposito_Jefe = (
+    SELECT 
+        COUNT(D2.depo_encargado)
+        FROM DEPOSITO D2
+        where D2.depo_encargado = e.empl_jefe
+        group by D2.depo_encargado 
+)
+    FROM Empleado E 
+    where E.empl_jefe IS NOT NULL
+    order by E.empl_jefe
+
 /*aparte para pensarlo
 
  /*encuentro un empleado y le encuentro cuantos depositos tiene a cargo
