@@ -15,7 +15,7 @@ SELECT
 (select SUM(S2.stoc_cantidad) from STOCK S2 WHERE S2.stoc_producto = P.prod_codigo ) AS [STOCK TOTAL TODOS DEPOSITOS]
 FROM Producto P 
 JOIN Item_Factura IT ON 
-    p.prod_codigo = IT.item_producto
+    
 INNER JOIN Factura F ON
     F.fact_tipo = IT.item_tipo AND F.fact_sucursal = it.item_sucursal AND IT.item_numero = F.fact_numero
 GROUP BY 

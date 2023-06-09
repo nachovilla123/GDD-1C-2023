@@ -9,7 +9,6 @@ menor al límite retornar “OCUPACION DEL DEPOSITO XX %” siendo XX el
 */
 
 
-
 create function ej1(@articulo char(8),@deposito char(2))
 RETURNS varchar(40)
 AS
