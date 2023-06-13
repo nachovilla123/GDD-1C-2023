@@ -7,7 +7,7 @@ menor al límite retornar “OCUPACION DEL DEPOSITO XX %” siendo XX el
 % de ocupación. Si la cantidad almacenada es mayor o igual al límite retornar
 “DEPOSITO COMPLETO”.
 */
-
+--SQL SERVER 
 
 create function ej1(@articulo char(8),@deposito char(2))
 RETURNS varchar(40)
