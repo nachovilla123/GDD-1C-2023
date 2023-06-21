@@ -40,3 +40,4 @@ where prod_familia <> ISNULL(( -----------------------------------simbolo para n
 							order by prod_codigo asc), 
 					'999')
 order by prod_detalle asc
+

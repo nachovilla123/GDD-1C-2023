@@ -25,8 +25,7 @@ select
 		Join Item_Factura I3 On F3.fact_tipo+F3.fact_sucursal+F3.fact_numero = I3.item_tipo+I3.item_sucursal+I3.item_numero
 		Where Year(F3.fact_fecha) = 2012 AND F3.fact_vendedor = E.empl_codigo
 		Group by I3.item_producto
-		order by SUM(I3.item_cantidad) DESC
-		
+		order by SUM(I3.item_cantidad) DESC		
 	) as Producto_Mas_vendido ,
 	((Sum(ISNULL( F.fact_total,0)) ) / (
 												Select Sum(ISNULL( F5.fact_total,0)) from Factura F5
