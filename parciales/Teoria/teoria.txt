@@ -1,0 +1,11 @@
+1. Estructura de datos
+a. Explique las estructuras de Ia lista de adyacencias,
+detallando los punteros.
+b. Describa los barridos de los árboles vistos en la
+materia.
+2. Base de. Datos
+a. Explique en al menos una carilla todo lo relacionado
+con Ia funcionalidad de integridad describiendo los objetos
+que son utilizados para tal fin.
+b. Explique el objetivo de los índices, cite un ejemplo
+donde sea razonable que una tabla no posea índices.
