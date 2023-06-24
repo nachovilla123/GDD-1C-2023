@@ -7,7 +7,7 @@ select from FA
 
 
 
-ELECT
+SELECT
 	prod_codigo,
 	(
 		SELECT TOP 1 fact_cliente FROM Factura

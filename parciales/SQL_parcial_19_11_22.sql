@@ -1,4 +1,4 @@
-I. Realizar una consulta SQL que permita saber los clientes que
+/*I. Realizar una consulta SQL que permita saber los clientes que
 compraron en el 2012 al menos 1 unidad de todos los productos
 compuestos.
 De estos clientes mostrar, siempre para el 2012:
@@ -11,4 +11,5 @@ cliente.
 5. Monto total comprado.
 El resultado deberá ser ordenado por razón social del cliente
 alfabéticamente primero y luego, los clientes que compraron entre un
-20 % y 30% del total facturado en el 2012 primero, luego, los restantes.
+20 % y 30% del total facturado en el 2012 primero, luego, los restantes.*/
+
