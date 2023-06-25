@@ -5,33 +5,24 @@ actualizar la columna de empleado empl_comision con la sumatoria del total de lo
 Se deberá retornar el código del vendedor que más vendió (en monto) a lo largo del último año.
 */
 
-CREATE PROCEDURE EJER4 @CODIGOVENDEDOR NUMERIC(6) OUPUT
-AS
-BEGIN
-
-UPDATE Empleado SET empl_comision = (EM)
-
-RETURN (
-        select top 1 F.fact_vendedor 
-        from Factura F 
-        where YEAR(F.fact_fecha) = 2012 
-        group by F.fact_vendedor
-        order by SUM(F.fact_total) DESC
-    ) 
-END
-
 
 alter FUNCTION totalVentaUltimoAnioEmpleado(@empleado NUMERIC(6)) 
 RETURNS DECIMAL(12,2)
 AS
 BEGIN
-RETURN  isnull((select Sum(isnull(F.fact_total,0)) from Factura F where F.fact_vendedor = @empleado and YEAR(fact_fecha) = 2012 ),0)
+RETURN  isnull((
+                select Sum(isnull(F.fact_total,0)) 
+                from Factura F 
+                where F.fact_vendedor = @empleado and
+                      YEAR(fact_fecha) = 2012 
+                ),0)
 END
+-- la base de datos no esta actualizada  y por eso pongo del 2012.
+-- para el a actual usar: --WHERE YEAR(F.fact_fecha) = YEAR(GETDATE()) - 1
 
 
 select E.empl_codigo, dbo.totalVentaUltimoAnioEmpleado(E.empl_codigo) as total from Empleado E
--- la base de datos no esta actualizada  y por eso pongo del 2012.
--- para el a actual usar: --WHERE YEAR(F.fact_fecha) = YEAR(GETDATE()) - 1
+
 
 
 select * from Empleado
@@ -55,9 +46,11 @@ BEGIN
     PRINT 'El codigo del empleado con mayor ventas es el número ' + @mayor_vendedor
 END
 
-exec actualizar_comision_empleados;
 
+exec actualizar_comision_empleados;
 SELECT * FROM Empleado
+
+
 
 ALTER FUNCTION totalVendidoUltimoAnio(@empleado NUMERIC(6))
     RETURNS DECIMAL (12,2)
@@ -70,3 +63,37 @@ return(SELECT TOP 1
                 ORDER BY(SUM(F.fact_total)) DESC)
 END
 
+--  WHERE YEAR(F.fact_fecha) >= 2012 se podria usar..
+
+
+
+------------------------OTRA ALTERNATIVA----------------------------
+ALTER PROC Ejercicio4 (@EmplQueMasVendio numeric(6,0) OUTPUT)
+AS
+BEGIN
+
+UPDATE Empleado Set empl_comision = (
+										SELECT SUM(F.fact_total)
+										FROM Factura F
+												WHERE YEAR(fact_fecha) = (
+																			SELECT TOP 1 YEAR(fact_fecha)
+																			FROM Factura
+																			ORDER BY fact_fecha DESC
+																			)
+													AND F.fact_vendedor = empl_codigo 
+									)
+
+-- aca no esta filtrando por comision del ultimo año. si hay uno q no vendio nada el año corriente pero el año pasado era el mejor
+-- lo devolvemos a el
+set @EmplQueMasVendio = (SELECT TOP 1 empl_codigo
+						   FROM Empleado
+						   ORDER BY empl_comision DESC)
+RETURN
+END
+
+--
+DECLARE @vendedor_que_mas_vendio numeric(6,0)
+EXEC Ejercicio4 @EmplQueMasVendio = @vendedor_que_mas_vendio OUTPUT
+SELECT @vendedor_que_mas_vendio AS [Vendedor que mas vendio]
+
+SELECT * FROM Empleado
