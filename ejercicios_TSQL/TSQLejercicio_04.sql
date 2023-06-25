@@ -11,11 +11,13 @@ BEGIN
 
 UPDATE Empleado SET empl_comision = (EM)
 
-RETURN (select top 1 F.fact_vendedor 
-from Factura F 
-where YEAR(F.fact_fecha) = 2012 
-group by F.fact_vendedor
-order by SUM(F.fact_total) DESC) 
+RETURN (
+        select top 1 F.fact_vendedor 
+        from Factura F 
+        where YEAR(F.fact_fecha) = 2012 
+        group by F.fact_vendedor
+        order by SUM(F.fact_total) DESC
+    ) 
 END
 
 
@@ -23,7 +25,7 @@ alter FUNCTION totalVentaUltimoAnioEmpleado(@empleado NUMERIC(6))
 RETURNS DECIMAL(12,2)
 AS
 BEGIN
-RETURN (select Sum(isnull(F.fact_total,0)) from Factura F where F.fact_vendedor = @empleado and YEAR(fact_fecha) = 2012 )
+RETURN  isnull((select Sum(isnull(F.fact_total,0)) from Factura F where F.fact_vendedor = @empleado and YEAR(fact_fecha) = 2012 ),0)
 END
 
 

@@ -1,4 +1,4 @@
-/*
+/* todavia no lo compare con nadie
 1. Realizar una consulta SQL que permita saber si un cliente compro un producto en todos los meses del 2012.
 
 Además, mostrar para el 2012: 

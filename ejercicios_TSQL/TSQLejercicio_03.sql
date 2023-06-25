@@ -35,15 +35,20 @@ SET @EMPLEADOS = 0
 EXEC DBO.EJ3 @EMPLEADOS
 PRINT @EMPLEADOS
 
---yo no puedo ver el resultado correcto porque deberia estar en un store procedure. no se puede mostrar en consola.
 
+---------------------- OTRA FORMA MIA (NO COMPARADA CON NADIE) ----------------------
+ALTER PROCEDURE EJ3 @empleados_sinJefeAntesEjecucion int OUTPUT AS
+SET @empleados_sinJefeAntesEjecucion =
+  (SELECT COUNT(DISTINCT E.empl_codigo)
+   FROM Empleado E
+   WHERE E.empl_jefe IS NULL ) DECLARE @CODIGO_GERENTE_GENERAL NUMERIC(6) =
+  (SELECT TOP 1 E2.empl_codigo
+   FROM Empleado E2
+   WHERE E2.empl_jefe IS NULL
+   ORDER BY E2.empl_salario DESC,E2.empl_ingreso DESC)
+UPDATE Empleado
+SET empl_jefe = @CODIGO_GERENTE_GENERAL
+WHERE empl_jefe IS NULL
+  AND empl_jefe <> @CODIGO_GERENTE_GENERAL GO DECLARE @EMPLEADOS INT
+  SET @EMPLEADOS = 0 EXEC DBO.EJ3 @EMPLEADOS PRINT @EMPLEADOS
 
-/*
-Formas de meter datos
-
-select @CANTIDAD = (select count(*) from Empleado where empl_jefe is null)
-
-set @CANTIDAD = (select count(*) from Empleado where empl_jefe is null)
-
-Select @CANTIDAD = count(*) from Empleado where empl_jefe is null
-*/
