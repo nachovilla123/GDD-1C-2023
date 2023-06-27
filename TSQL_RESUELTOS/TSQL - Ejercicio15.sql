@@ -11,9 +11,8 @@ Alter FUNCTION dbo.ejercicio15 (@producto char(8))
 RETURNS decimal(12,2)
 AS
 BEGIN
-	DECLARE @precioProd decimal(12,2) = 0
-	DECLARE @prodCompuesto char(8)
-	DECLARE @cantProdCompuesto decimal(12,2)
+	DECLARE @precioProd decimal(12,2) = 0,@prodCompuesto char(8),@cantProdCompuesto decimal(12,2)
+	
 	IF NOT EXISTS(SELECT * FROM Composicion WHERE comp_producto = @producto)
 	BEGIN
 		SET @precioProd = (
@@ -34,12 +33,12 @@ BEGIN
 		WHILE @@FETCH_STATUS = 0
 		BEGIN
 			SET @precioProd = @precioProd + (
-												SELECT prod_precio
-												FROM Producto
-												WHERE prod_codigo = @prodCompuesto
-												) * @cantProdCompuesto
-		FETCH NEXT FROM cursor_prod
-		INTO @prodCompuesto,@cantProdCompuesto
+													SELECT prod_precio
+													FROM Producto
+													WHERE prod_codigo = @prodCompuesto
+													) * @cantProdCompuesto
+			FETCH NEXT FROM cursor_prod
+			INTO @prodCompuesto,@cantProdCompuesto
 		END
 		CLOSE cursor_prod
 		DEALLOCATE cursor_prod

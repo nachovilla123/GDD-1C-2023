@@ -43,8 +43,8 @@ BEGIN
 		WHILE @@FETCH_STATUS = 0
 		BEGIN
 			SET @precioProd = @precioProd + dbo.precioCompuesto3(@prodCompuesto) * @cantProdCompuesto
-		FETCH NEXT FROM cursor_prod
-		INTO @prodCompuesto,@cantProdCompuesto
+			FETCH NEXT FROM cursor_prod
+			INTO @prodCompuesto,@cantProdCompuesto
 		END
 		CLOSE cursor_prod
 		DEALLOCATE cursor_prod
