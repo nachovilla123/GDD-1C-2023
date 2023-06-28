@@ -30,14 +30,11 @@ begin
 		WHILE(@@FETCH_STATUS = 0)
 			BEGIN
 				--ACCIONES
-
 				SET @empleadosACargoIndirectos = @empleadosACargoIndirectos + dbo.getEmpleadosACargo(@subEmpleado)
 				FETCH NEXT FROM cursor_subempleados INTO @subEmpleado
 			END
 	CLOSE cursor_subempleados
 	DEALLOCATE cursor_subempleados
-
-
 	RETURN @empleadosACargoIndirectos + @empleadosACargoDirectos
 end
 
