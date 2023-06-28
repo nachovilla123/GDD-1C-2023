@@ -1,5 +1,5 @@
 /*
-Formas de meter datos
+Formas de meter datos en TSQL
 
     select @CANTIDAD = (select count(*) from Empleado where empl_jefe is null)
 
