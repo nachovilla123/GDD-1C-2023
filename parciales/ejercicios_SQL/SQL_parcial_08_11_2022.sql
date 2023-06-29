@@ -43,7 +43,7 @@ SELECT
 
 	) AS DETALLE_PRODUCTO_MAS_COMPRADO,
 	
-	(
+	( -- esto esta mal hacer una subquey para esto. Joinear desde el from principal con item factura y hacer un COUNT(DISTINCT I.item_producto) y con eso te ahorras todo esto
 		SELECT COUNT(DISTINCT I4.item_producto)
 			FROM Factura F4 
 			INNER JOIN Item_Factura I4 
