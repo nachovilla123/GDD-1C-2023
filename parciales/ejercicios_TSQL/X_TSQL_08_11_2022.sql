@@ -6,3 +6,4 @@ que sean los seleccionados no podrán aumentar por mes más de un 2
 %. En caso que no se tenga referencia del mes anterior no validar
 dicha regla.
 */
+
