@@ -1,7 +1,5 @@
 /*
 
-
-
 1. Implementar una regla de negocio en línea donde se valide que nunca
 un producto compuesto pueda estar compuesto por componentes de
 rubros distintos a el.
@@ -22,8 +20,11 @@ BEGIN
 	-- declaramos cursor para recorrer los componetes 
 	DECLARE cursor_composicion CURSOR
 	FOR	 SELECT 
-			C.comp_componente
+			P.prod_rubro
 		 FROM Composicion C
+			INNER JOIN Producto P 
+				ON P.prod_codigo = C.comp_componente
+
 		 WHERE C.comp_producto = @producto
 
 	OPEN cursor_composicion
@@ -51,13 +52,17 @@ END
 
 
 -------- TRIGGER
-
-CREATE TRIGGER triggerParcial2  ON Producto INSTEAD OF UPDATE,INSERT 
+GO 
+CREATE TRIGGER triggerParcial2 ON Producto INSTEAD OF UPDATE,INSERT 
 AS
 BEGIN
 	IF(select dbo.productoComposicionTieneComponentesDeRubrosDistintos(I.prod_codigo) from inserted I) = 1
-		BEGIN
-			PRINT('PRODUCTO COMPUESTO NO PUEDE TENER COMPONENTES DE DISTINTO RUBRO')
-			ROLLBACK 
+		BEGIN 
+			 
+			RAISERROR ('PRODUCTO COMPUESTO NO PUEDE TENER COMPONENTES DE DISTINTO RUBRO', 16, 1)
+		
+			ROLLBACK TRANSACTION
 		END
-GO 
+END
+
+
