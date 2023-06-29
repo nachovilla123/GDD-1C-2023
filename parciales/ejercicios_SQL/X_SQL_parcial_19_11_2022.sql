@@ -32,7 +32,7 @@ SELECT
 
 	) AS CODIGO_PRODUCTO_MAS_COMPRADO,
 
-	(
+	( --TODO joinear con item factura y COUNT(DISTINCT I.item_producto)
 		SELECT COUNT(DISTINCT I4.item_producto)
 			FROM Factura F4 
 			INNER JOIN Item_Factura I4 

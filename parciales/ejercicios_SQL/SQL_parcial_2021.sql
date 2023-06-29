@@ -1,21 +1,5 @@
-/*1Armar una consulta Sql que retorne:
+/*1Armar una consulta Sql que retorne: █:DONE
 
-    
-Razón social del cliente
-Límite de crédito del cliente
-Producto más comprado en la historia (en unidades)
-
-    Solamente deberá mostrar aquellos clientes que tuvieron mayor cantidad de ventas en el 2012 que
-    en el 2011 en cantidades y cuyos montos de ventas en dichos años sean un 30 % mayor el 2012 con
-    respecto al 2011. El resultado deberá ser ordenado por código de cliente ascendente
-
-NOTA: No se permite el uso de sub-selects en el FROM.
-*/
-
-
-/*1Armar una consulta Sql que retorne:
-█:DONE
-    
 	█Razón social del cliente
 	█Límite de crédito del cliente
 	█Producto más comprado en la historia (en unidades)     -- Yo interpreto que es el producto mas comprado en la historia del cliente
@@ -75,7 +59,3 @@ HAVING
 		WHERE YEAR(F5.fact_fecha) = 2011 AND F5.fact_cliente = CL.clie_codigo
 	   )
 ORDER BY CL.clie_codigo ASC
-
-
-		
-        
