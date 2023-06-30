@@ -15,8 +15,6 @@ El resultado deberá ser ordenado por razón social del cliente
 alfabéticamente primero y luego, los clientes que compraron entre un
 20 % y 30% del total facturado en el 2012 primero, luego, los restantes.*/
 
-
-
 SELECT
 	CL1.clie_codigo,
 	(
@@ -32,41 +30,28 @@ SELECT
 
 	) AS CODIGO_PRODUCTO_MAS_COMPRADO,
 
-	( --TODO joinear con item factura y COUNT(DISTINCT I.item_producto)
-		SELECT COUNT(DISTINCT I4.item_producto)
-			FROM Factura F4 
-			INNER JOIN Item_Factura I4 
-				ON  I4.item_tipo = F4.fact_tipo AND
-					I4.item_sucursal = F4.fact_sucursal AND
-					I4.item_numero = F4.fact_numero
-			WHERE F4.fact_cliente = CL1.clie_codigo AND YEAR(F4.fact_fecha) = 2012
-	) AS CANTIDAD_PRODUCTOS_DISTINTOS_COMPRADOS,
+	COUNT(DISTINCT I1.item_producto) AS CANTIDAD_PRODUCTOS_DISTINTOS_COMPRADOS,
 
-	(
-		SELECT SUM( F5.fact_total)
-			FROM Factura F5 
-			WHERE F5.fact_cliente = CL1.clie_codigo AND YEAR(F5.fact_fecha) = 2012
-	) AS MONTO_TOTAL_COMPRADO
+	SUM(F1.fact_total) AS MONTO_TOTAL_COMPRADO,
+	COUNT(DISTINCT COMPO.comp_producto)
 
 FROM Cliente CL1
-	INNER JOIN Factura F1 ON CL1.clie_codigo = F1.fact_cliente
-	WHERE  YEAR(F1.fact_fecha) = 2012
+	INNER JOIN Factura F1 
+		ON CL1.clie_codigo = F1.fact_cliente
+	INNER JOIN Item_Factura I1 
+		ON F1.fact_tipo+F1.fact_sucursal+F1.fact_numero=I1.item_tipo+I1.item_sucursal+I1.item_numero
+	LEFT JOIN Composicion COMPO
+		ON COMPO.comp_producto = I1.item_producto
+		
+WHERE  YEAR(F1.fact_fecha) = 2012
 GROUP BY CL1.clie_codigo
-
-HAVING  ( -- DUDAS
-			SELECT COM.comp_producto
+HAVING  (-- ESTA BIEN HECHO PERO NO HAY PRODUCTOS Q CUMPLAN CONDICION
+			SELECT COUNT(DISTINCT COM.comp_producto)
 			FROM Composicion COM 
-		) IN 
-			(
-				SELECT IH.item_producto 
-					FROM Factura FH 
-						INNER JOIN Item_Factura IH 
-							ON  IH.item_tipo = FH.fact_tipo AND
-								IH.item_sucursal = FH.fact_sucursal AND
-								IH.item_numero = FH.fact_numero
-					WHERE FH.fact_cliente = CL1.clie_codigo AND YEAR(FH.fact_fecha) = 2012
-			)
+		) = COUNT(DISTINCT COMPO.comp_producto)
+--ORDER BY PENDIENTE :(
+		
 
---Realizar una consulta SQL que permita saber los clientes que compraron en el 2012 al menos 1 unidad de todos los productos compuestos.
+
 
 
