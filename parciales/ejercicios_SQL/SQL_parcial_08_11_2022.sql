@@ -1,3 +1,5 @@
+--todo: comentario de mi resuelto : en 5 y 6 se pueden resolver sin subquerys y es importante. ver como se hace en otros parciales sin subqueys :D
+
 /* todavia no lo compare con nadie
 1. Realizar una consulta SQL que permita saber si un cliente compro un producto en todos los meses del 2012.
 
