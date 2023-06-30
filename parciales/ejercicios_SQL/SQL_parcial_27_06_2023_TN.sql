@@ -13,27 +13,23 @@ distintos:
 NOTA: No se permite el uso de sub-setects en el FROM ni funciones definidas por el usuario para este punto,
 */
 
-
-SELECT TOP 10
-	CL.clie_codigo,
-	Cl.clie_razon_social,
-	COUNT(DISTINCT I.item_producto) AS Productos_distintos_comprados_2012,
-	isnull((
-		Select Sum(I2.item_cantidad)
-		From Factura F2
-			INNER JOIN Item_Factura I2
-				ON I2.item_tipo+I2.item_sucursal+I2.item_numero = F2.fact_tipo+F2.fact_sucursal+F2.fact_numero
-		WHERE F2.fact_cliente = CL.clie_codigo AND F2.fact_fecha >= CONVERT(DATETIME, '2012-01-01 00:00:00', 120)
-            AND F2.fact_fecha <= CONVERT(DATETIME, '2012-06-30 23:59:59', 120)
-		
-	),0) as Cantidad_unidades_compradas_primer_semestre_2012
-
-FROM Cliente CL 
-	INNER JOIN Factura F
-		ON F.fact_cliente = Cl.clie_codigo
-	Inner Join Item_Factura I on I.item_tipo+I.item_sucursal+I.item_numero = F.fact_tipo+F.fact_sucursal+F.fact_numero
-WHERE F.fact_fecha >= CONVERT(DATETIME, '2012-01-01 00:00:00', 120)
-    AND F.fact_fecha <= CONVERT(DATETIME, '2012-12-31 23:59:59', 120)
-group by CL.clie_codigo,Cl.clie_razon_social
---HAVING COUNT(DISTINCT F.fact_vendedor) > 3
-ORDER BY Productos_distintos_comprados_2012 DESC , CL.clie_codigo
+SELECT TOP 10 
+C.clie_razon_social as [Cliente-Razon Social],
+COUNT(DISTINCT IT.item_producto) as [Unidades compradas Semestral],
+(
+SELECT
+SUM(IT2.item_cantidad)
+FROM Factura F2
+	INNER JOIN Item_Factura IT2 ON
+		F2.fact_tipo+F2.fact_numero+F2.fact_sucursal = IT2.item_tipo+IT2.item_numero+IT2.item_sucursal
+	WHERE F2.fact_cliente = F.fact_cliente AND YEAR(F2.fact_fecha) = 2012 AND MONTH(F2.fact_fecha) <=6
+) as [Producos del primer semestre]
+FROM Factura F
+	INNER JOIN Cliente C ON
+		C.clie_codigo = F.fact_cliente
+	INNER JOIN Item_Factura IT ON
+		F.fact_tipo+F.fact_numero+F.fact_sucursal = IT.item_tipo+IT.item_numero+IT.item_sucursal
+	WHERE YEAR(F.fact_fecha) = 2012
+	GROUP BY F.fact_cliente,C.clie_razon_social,C.clie_codigo
+	--HAVING COUNT(DISTINCT F.fact_vendedor) > 3
+	ORDER BY COUNT(F.fact_cliente)DESC ,C.clie_codigo DESC
