@@ -1,4 +1,4 @@
-*
+/*
 I.Realizar una consulta SQL que retorne para 
 
 █todas las zonas que tengan 3 (tres) o más depósitos.
