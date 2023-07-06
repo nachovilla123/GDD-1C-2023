@@ -1,4 +1,3 @@
-
 /* --NOTA:8 : sin comentarios del profesor
 
 2. Implementar una regla de negocio para mantener siempre consistente
@@ -11,8 +10,6 @@ En esta tabla debe registrar el periodo (YYYYMM),
   y las unidades vendidas. 
   
   Toda esta información debe estar por periodo (YYYYMM).*/
-
-
 
   --Ejercicio 2
 
