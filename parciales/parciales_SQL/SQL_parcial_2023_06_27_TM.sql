@@ -1,12 +1,12 @@
 /*
 I.Realizar una consulta SQL que retorne para 
 
-█todas las zonas que tengan 3 (tres) o más depósitos.
+█ todas las zonas que tengan 3 (tres) o más depósitos.
 
-	█Detalle Zona
-	█Cantidad de Depósitos x Zona
-█?Cantidad de Productos distintos compuestos en sus depósitos
-█?Producto mas vendido en el año 2012 que tonga stock en al menos uno de sus depósitos.
+	█ Detalle Zona
+	█ Cantidad de Depósitos x Zona
+█? Cantidad de Productos distintos compuestos en sus depósitos
+█? Producto mas vendido en el año 2012 que tonga stock en al menos uno de sus depósitos.
 █?	Mejor encargado perteneciente a esa zona (El que mas vendió en la historia).
 
 El resultado deberá ser ordenado por monto total vendido del encargado DESC.

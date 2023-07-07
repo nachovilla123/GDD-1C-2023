@@ -1,11 +1,9 @@
-/*
-2. Se requiere realizar una verificación de los precios de los COMBOS, para
+/*2. Se requiere realizar una verificación de los precios de los COMBOS, para
 ello se solicita que cree el o los objetos necesarios para realizar una
 operación que actualice que el precio de un producto compuesto
 (COMBO) es el 90% de la suma de los precios de sus componentes por
 las cantidades que los componen. Se debe considerar que un producto
-compuesto puede estar compuesto por otros productos compuestos.
-*/
+compuesto puede estar compuesto por otros productos compuestos.*/
 
 /*
 2. Se requiere realizar una verificación de los precios de los COMBOS, 
@@ -28,6 +26,8 @@ Se debe considerar que un producto compuesto puede estar compuesto por otros pro
 		que hicimos anteriormente
 */
 
+
+--interpreto que el control es manual para cada producto composicion.
 GO
 CREATE FUNCTION sumatoria_precio_componentes(@codigo_producto_compuesto char(8))
 RETURNS decimal(12,2)
@@ -63,6 +63,58 @@ BEGIN
 			DEALLOCATE cursor_funcion
 	RETURN @sumatoria_precio_componentes
 END
+
+
+
+
+GO
+CREATE PROCEDURE actualizarPrecioProductoComposicion (@producto_composicion char(8)) 
+AS
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+
+	UPDATE Producto
+	SET prod_precio = dbo.sumatoria_precio_componentes(@producto_composicion)
+	WHERE prod_codigo = @producto_composicion;
+END
+GO
+
+
+
+CREATE TRIGGER trigerActualizador ON Producto AFTER INSERT,UPDATE
+AS
+BEGIN 
+	declare @comp_producto char(8)
+	SET tRaNsACtiOn isolation LEVEL SERIALIZABLE
+
+		DECLARE mi_cursor CURSOR FOR
+		SELECT 
+			C.comp_producto
+		FROM Producto P
+			INNER JOIN Composicion C
+				ON P.prod_codigo = C.comp_producto 
+	
+	OPEN mi_cursor
+		FETCH NEXT FROM mi_cursor INTO @comp_producto
+		while(@@FETCH_STATUS = 0)
+			begin
+				--acciones
+				UPDATE Producto
+				SET prod_precio = dbo.sumatoria_precio_componentes(@comp_producto) * 0.9
+				WHERE prod_codigo = @comp_producto;
+
+				FETCH NEXT FROM mi_cursor INTO @comp_producto
+			end
+	CLOSE mi_cursor
+	DEALLOCATE mi_cursor
+END
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------
 
 
 Select C.comp_producto , 

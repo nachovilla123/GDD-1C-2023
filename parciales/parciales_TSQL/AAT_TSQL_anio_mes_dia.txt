@@ -1,0 +1,2 @@
+Recomendacion: solo usen los enunciados de TSQL :(
+    
