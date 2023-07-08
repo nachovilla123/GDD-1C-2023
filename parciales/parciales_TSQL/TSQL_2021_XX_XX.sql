@@ -15,13 +15,13 @@ AS
 
 
 	SET @max_dias_consecutivos = 0	
-	SET @dias_consecutivos = 0
+	SET @dias_consecutivos = 0 -- podria considerarse que empieza en 1.
 	SET @fecha_anterior = GETDATE()
 
 	declare cVentasDelProducto CURSOR FOR
 	select fact_fecha 
 	from Factura 
-        JOIN Item_Factura 
+        inner JOIN Item_Factura 
             ON item_numero+item_tipo+item_sucursal=fact_numero+fact_tipo+fact_sucursal
 	WHERE	item_producto = @producto AND fact_fecha > @fecha
 	GROUP BY fact_fecha
