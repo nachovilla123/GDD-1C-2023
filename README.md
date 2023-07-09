@@ -3,11 +3,11 @@ Este repositorio fue creado con el propocito de encontrar enunciados y una posib
 Puede que no todas las propuestas de solucion esten bien. Usalas para comparar tus resoluciones.
 
 ## CARPETAS
+- parciales: TSQL y SQL (pueden usar el resuelto pero no esta garantizado que este 100% bien)
+- TSQL_RESUELTOS: TSQL resueltos en utenianos
 - ejercicios_SQL: ejercicios resueltos por mi
 -  ejercicios_TSQL: ejercicios resueltos por mi
 - helpers: insertando datos a la DB para checkear algunos ejercicios
-- parciales: TSQL y SQL (pueden usar el resuelto pero no esta garantizado que este 100% bien)
-- TSQL_RESUELTOS: TSQL resueltos en utenianos
 
 
 # Colaboraciones
