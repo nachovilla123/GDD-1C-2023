@@ -1,6 +1,6 @@
 # GDD-1C-2023
-Este repositorio fue creado con el propocito de encontrar enunciados y una posible solucion para parciales y ejercicios!
-Puede que no todas las propuestas de solucion esten bien. Usalas para comparar tus resoluciones.
+Este repo lo armé para que puedas encontrar enunciados y posibles soluciones de parciales y ejercicios.
+Cuidado, te aviso que no todas las soluciones propuestas están perfectas. Usalas para comparar tus propias resoluciones.
 
 ## CARPETAS
 - parciales: TSQL y SQL (pueden usar el resuelto pero no esta garantizado que este 100% bien)
