@@ -10,7 +10,7 @@ Puede que no todas las propuestas de solucion esten bien. Usalas para comparar t
 - TSQL_RESUELTOS: TSQL resueltos en utenianos
 
 
-### Colaboraciones
+# Colaboraciones
 
 ¡Agredezco mucho tu contribucion a este repositorio! Si queres agregar nuevos enunciados de ejercicios o soluciones mejoradas, te invito a seguir estos pasos para hacerlo mediante pull requests:
 
