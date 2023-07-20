@@ -1,0 +1,25 @@
+[APORTE] FINAL GDD 21/12/2020FinalesGestión de Datos
+Modalidad Virtual
+
+40 min por el campus
+
+1- Si una columna posee la constraint UNIQUE, entonces un sola fila como máximo puedecontener NULL en dicha columna. (V/F)
+2- En SQL, una subconsulta en el SELECT siempre debe retornar una fila y una columna. (V/F)
+3- IMAGEN(transacción)
+Las transacciones A y B son ejecutadas ambas con un nivel de aislamiento SERIALIZABLE. Responder cual es la respuesta correcta.
+Seleccione una:
+a. Se genera un interbloqueo
+b. La transacción B queda desestimada porque aplica un rollback al final, dejando
+que la transacción A realice la modificación.
+c. Ninguna de las anteriores
+d. Se modifica solamente el producto cuyo id = 1, con un valor X en el atributo
+detalle
+
+4- IMAGEN(ojeto)
+
+
+
+Y si aprobabas la parte del campus pasabas al oral 2 o 3 preguntas
+- Huffman
+- Arbol-B
+- Trigger

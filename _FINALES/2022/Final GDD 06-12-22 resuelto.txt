@@ -1,0 +1,74 @@
+FALSO, no es lo mismo, ya que la primary key me identifica cual va a ser la clave de la tupla, que me permita identificar
+la misma de manera univoca, con los restantes valores de la tupla. La clave primaria tiene que cumplir las condiciones de
+unicidad y minimalidad. De esta forma, la clave primaria necesita cumplir con la constraint UNIQUE. Pero que una
+columna cumpla con la constraint unique, no significa que esta va a ser clave primaria. Una me mantiene la integridad 
+de la entidad, mientras que la otra me asegura una integridad semantica
+
+FALSO, Es falso porque si hay un solo registro en la tabla, no usaria el indice.
+
+
+Transaccion es un mecanismo que posee la BD para asegurarme que una secuencia de instrucciones se ejecute en forma
+atomica, en una unidad logica de trabajo, es decir, o se ejecutan todas juntas, o no se ejecuta ninguna. 
+Las transacciones mantiene las propiedades ACID, Atomicidad, Consistencia, Aislamiento y Duracion.
+Las transacciones me llevan de un estado correcto a otro correcto, razon por la cual, no me quedan datos incosistentes.
+Isolation level, son los niveles de aislamiento que va a tener la transaccion frente a otra transacciones, 
+al momento de la comparticion de recursos. Existen cuatro tipos de aislamientos.
+read uncomitted, la transaccion va a leer valores el valor que exista en el momento, este commiteado o no, razon
+por la cual, ese dato que lee, puede ser que luego no se llegue a commitear, por lo que estaria realizando una 
+lectura sucia, ya que no seria el dato que va a terminar permaneciendo en la BD. No me asegura lockeos en los 
+select, por lo que me aumenta la performance, pero me genera lecturas sucias, fantasmas, y no me asegura lecturas
+repetibles.
+read commited, es igual que el anterior, pero las transacciones solo van a leer datos que ya fueron commiteados, por
+lo que no van a existir lecturas sucias. Pero al solo lockear el registro consultado solamente durante su lectura, 
+la transaccion no me va a asegurar que existan lecturas repetidas, como asi tampoco la aparicion de lecturas 
+fantasmas. 
+repetible read, este nivel de aislamiento, me va a lockear el registro leido en el select durante la duracion de la 
+transaccion por lo que me asegura que no existan lecturas basuras, y que existan lecturas repetidas. 
+No asegurandome lecturas  fantasmas, ya que no me lockea al momento de hacer un insert. Bloque solamente los procesos
+que quieren modificar o borras alguno de los registro utilizados por el otro proceso. Pero pueden aparecer lecturas
+fantasmas, ya que no realiza ninguna accion frente a los inserts.
+serializable read, es el nivel mas restrictivo de aislamiento, me asegura que existan lecturas repetibles, y que no 
+existan lecturas sucias y lecturas fantasmas. Se realizara un lockeo de un rango de indice segun lo que se ponga en 
+el where, y si no es posible, se lockeara toda la tabla. Este nivel de bloqueo, puede afectar a los demas usuarios
+en un sistema multiusuario.
+
+
+
+select prod_codigo,  
+(select top 1 stock_deposito from stock where stock_deposito=p.cod_producto ordery by desc),
+sum(stock_cantidad)
+from productos p join stock on prod_codigo=stock_producto
+where stock_cantidad>0
+group by prod_codigo
+having  count(prod_codigo) > ((select count(*) deposito)/2)
+
+
+
+Se produce un deadlock, ya que ambos procesos ponen un nivel de aislamiento serializabe read, por lo tanto, el 
+Proceso A, hace un select, luego el Proceso B hace el mismo select, como esta leyendo, no se bloquea, porq no 
+genera ningun problema para el proceso A, entonces despues cuando cada uno de los procesos quiero modificar, se va
+a bloquear por el otro, el a por el b, y el b por el a. ENtonces ninguno avanza. Por tal motivo, el motor mata uno 
+de los procesos, y deja terminar de ejecutar el otro, entonces el campo prod_producto va a terminar con alguno de 
+los valores de la transaccion 1 o de la transaccion 2
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+IgnacioP escribió:  
+Buenas! Desde ya muchas gracias por compartir estos finales! Te quería preguntar en el punto 3B por qué la respuesta correcta es la B, no generaría deadlock? Si tendrías un resumen o algo donde explique bien eso te lo re agradecería!
+
+La respuesta correcta es la B por lo siguiente:
+En T1 ambos procesos se setean, uno con repeteable read y el otro con read commited.
+En T2, el PA lee el registro de la tabla Producto que tiene un valor de prod_codigo = 1. Como PA seteo con repeteable read, va a poner un tipo de bloqueo sobre ese registro, para poder mantener sus propiedades, que son lectura repetible, y que no existan lescturas basuras. Basicamente bloquearia a toda transaccion que quiera hacer delete o update sobre el prod_codigo=1.
+EN T3 el PB, quiere leer de la tabla Producto el registro con prod_codigo=1, y lo puede leer, ya que solamente esta haciendo lectura. Si PB, querria hacer un delete o update, ahi si se bloquearia. COmo PB esta seteado con read commited, solo va a bloquear el registro por el lapso que realiza la lectura, y luego lo libera.
+En T4, el PA, modifica el registro que tiene el prod_codigo=1, y le cambia el detalle a "Proceso A". Esto lo puede hacer, ya que no hay ningun proceso que haya bloqueado a prod_codigo=1. Porq PB, solo bloqueo ese registro en T3 durante la lectura del mismo, y luego de eso, lo desbloquea.
+En T5, el PB quiere modificar el pord_codigo=1, pero no va a poder, ya que se encuentra bloqueado por PA, para delete y update, por lo tanto se bloquea.
+En T6, el PA commitea el valor "Proceso A" y desbloquea ese registro.
+Luego de que eso, se desbloquea el PB, que estaba bloqueado, y puede hacer el update del prod_codigo=1, cambiando el detalle a "Proceso B". Y posteriormente a eso, realiza el commit. Quedando como el valor final "Proceso B".
+
+Por eso la opcion correcta era la B y no con deadlock

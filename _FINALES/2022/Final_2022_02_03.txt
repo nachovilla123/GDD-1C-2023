@@ -1,0 +1,17 @@
+
+https://drive.google.com/file/d/1QZ3GA3BGyTOItUDsZlWy0TjdWiaL0Jj3/edit
+
+Buenas, buenas!!
+
+Les comparto lo que tomaron en el final de Gestión de datos de Ayer.
+Al finalizar la corrección el profe Reynosa nos hizo entrar al aula y nos explicaron todas las respuestas punto por punto, estuvo muy bueno para aclarar dudas.
+Las respuestas de cada punto eran:
+1.a) FALSO
+1.b) VERDADERO
+2.a) Ver la teoría: los tiempos de respuesta de la tabla de Hash para la búsqueda, Insert y Delete de claves son del orden de O(1) (lineal) mientras que en Arbol B estos tiempos son del orden de O(logn). Hashing funciona muy bien con un tamaño de datos acotado para evitar colisiones, una función de Hash apropiada y cuando se requiere acceso directo a los datos.
+2.b) Por ejemplo para modelizar la relación Amistad en Redes Sociales y modelizar Caminos en Google Maps se pueden usar los Grafos Irrestrictos.
+3.a) La opción correcta es la B). Aparentemente en la sentencia Update (línea 3) quedaban bloqueadas las dos transacciones y el motor "mataba" a una de ellas. La elección de cuál elije para abortar es impredecible (hace un kill del proceso).
+3.b) El problema estaba en la sentencia IF (select cantidad FROM STOCK where id_producto = @prod) >= @cantidad
+Obtenía lecturas NO Repetibles de la tabla Stock. El código del trigger estaba correcto, sin errores, no había que cambiarle nada, solo que cuando iba a correr esa consulta IF y si resultaba = TRUE, a continuación recomendaban setear el nivel de aislamiento en Repeatable Read, luego ejecutar el Update en la tabla Stock descontando la cantidad y luego volver a setear el nivel de aislamiento en Read Commited.
+
+Dieron 5 minutos para verlo, si no nos sentíamos confiados nos podíamos retirar, y si elegíamos quedarnos a rendir nos daban 1 hora para resolverlo.
